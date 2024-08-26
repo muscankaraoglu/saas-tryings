@@ -1,0 +1,32 @@
+﻿@page "/"
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] ModularMonolith</title>
+    <link rel="stylesheet" href="css/site.css" />
+    <link rel="stylesheet" href="css/fonts.css" />
+    <link rel="stylesheet" href=@($"{TailwindSourceConstant.TailwindOutputPath}") />
+</head>
+<body class="from-white to-primary-100 grid h-screen place-content-center bg-gradient-to-b">
+    @if (User.Identity.IsAuthenticated)
+    {
+        <component type="typeof(ClientApp)" render-mode="WebAssembly" />
+        <link rel="stylesheet" href="Web.Client.styles.css" />
+        <script src="_framework/blazor.webassembly.js"></script>
+    }
+    else
+    {
+        <component type="typeof(LandingPagesApp)" render-mode="Server" />
+        <link rel="stylesheet" href="Web.Server.styles.css" />
+        <script src="_framework/blazor.server.js"></script>
+    }
+</body>
+</html>
+
+

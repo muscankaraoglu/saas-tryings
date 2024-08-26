@@ -1,0 +1,39 @@
+# This workflow will build a .NET project
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
+
+name: .NET
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+  
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Setup Node
+      uses: actions/setup-node@v3
+      with:
+        node-version: 16
+        cache: 'npm'
+        cache-dependency-path: ./Source
+    - name: Install TailwindCSS
+      run: npm install -g tailwindcss
+    - name: Build TailwindCSS
+      working-directory: ./Source
+      run: npx tailwindcss -i ./TailwindSource.css -o ./Shared/Web/Styles/wwwroot/dist/output.css --watch --minify
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: 6.0.x
+    - name: Restore dependencies
+      run: dotnet restore
+    - name: Build
+      run: dotnet build --no-restore
+    - name: Test
+      run: dotnet test --no-build --verbosity normal

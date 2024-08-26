@@ -1,0 +1,13 @@
+﻿<CascadingAuthenticationState>
+    <ExceptionHandlingWrapper>
+        <SignalRWrapper>
+            @ChildContent
+        </SignalRWrapper>
+    </ExceptionHandlingWrapper>
+</CascadingAuthenticationState>
+
+
+@code{
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+}
